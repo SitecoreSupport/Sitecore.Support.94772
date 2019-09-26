@@ -272,7 +272,7 @@ namespace Sitecore.Support.Shell.Applications.Install.Dialogs
         [NotNull]
         private IEnumerable<string> GetInvalidFileNames()
         {
-            return this.GetFileList().Where(s => !this.ValidateZipFile(s));
+            return this.GetFileList().Where(s => !this.ValidateZipOrXmlFile(s));
         }
 
         /// <summary>
@@ -312,7 +312,7 @@ namespace Sitecore.Support.Shell.Applications.Install.Dialogs
         /// <returns>
         /// Returns true if file has zip extension.
         /// </returns>
-        protected bool ValidateZipFile(string fileName)
+        protected bool ValidateZipOrXmlFile(string fileName)
         {
             try
             {
@@ -322,10 +322,12 @@ namespace Sitecore.Support.Shell.Applications.Install.Dialogs
                     return false;
                 }
 
-                if (string.Compare(extension, "zip", StringComparison.InvariantCultureIgnoreCase) == 0)
+                #region modified part of the code - added check for xml file
+                if (string.Compare(extension, "zip", StringComparison.InvariantCultureIgnoreCase) == 0 || string.Compare(extension, "xml", StringComparison.InvariantCultureIgnoreCase) == 0)
                 {
                     return true;
                 }
+                #endregion
             }
             catch (Exception)
             {
